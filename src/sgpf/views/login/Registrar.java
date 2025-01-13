@@ -4,7 +4,11 @@
  */
 package sgpf.views.login;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import sgpf.daos.UsuarioDao;
+import java.util.regex.Pattern;
+
 
 /**
  *
@@ -224,6 +228,12 @@ public class Registrar extends javax.swing.JFrame {
             return;
         }
 
+        if(!esContraseñaSegura(contraseña)){
+            return;  
+        }
+        
+        String contrasenaEncriptada = encriptarConSHA256(contraseña);
+
         // Simular el registro del usuario (puedes conectarlo a una base de datos más adelante)
         javax.swing.JOptionPane.showMessageDialog(this, "Usuario registrado con éxito:\n" +
                 "Nombres: " + nombres + "\n" +
@@ -239,7 +249,7 @@ public class Registrar extends javax.swing.JFrame {
         Contrasena.setText("");
         
         UsuarioDao usuarioDAO = new UsuarioDao();
-        boolean exito = usuarioDAO.registrarUsuario(nombres, apellidos, identificacion, correo, contraseña);
+        boolean exito = usuarioDAO.registrarUsuario(nombres, apellidos, identificacion, correo, contrasenaEncriptada);
 
         if (exito) {
             javax.swing.JOptionPane.showMessageDialog(this, "Usuario registrado con éxito en la base de datos.", "Registro Exitoso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -277,6 +287,74 @@ public class Registrar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ContrasenaActionPerformed
 
+    public static boolean esContraseñaSegura(String contraseña) {
+        // Verificar la longitud mínima
+        if (contraseña.length() < 8) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Verificar que tenga al menos una letra mayúscula
+        if (!Pattern.compile("[A-Z]").matcher(contraseña).find()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos una letra mayúscula.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Verificar que tenga al menos una letra minúscula
+        if (!Pattern.compile("[a-z]").matcher(contraseña).find()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos una letra minúscula.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Verificar que tenga al menos un número
+        if (!Pattern.compile("[0-9]").matcher(contraseña).find()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos un número.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Verificar que tenga al menos un carácter especial
+        if (!Pattern.compile("[@#$%^&+=!]").matcher(contraseña).find()) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña debe contener al menos un carácter especial (ej. @, #, $, %, ^, &, +, =).", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Verificar que no contenga espacios
+        if (contraseña.contains(" ")) {
+            javax.swing.JOptionPane.showMessageDialog(null, "La contraseña no puede contener espacios.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        // Si pasa todas las comprobaciones, la contraseña es segura
+        return true;
+    }
+    
+    public static String encriptarConSHA256(String contraseña) {
+        try {
+            // Crear un objeto MessageDigest con el algoritmo SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            // Enviar la contraseña al algoritmo de hash y obtener el array de bytes
+            byte[] hashBytes = digest.digest(contraseña.getBytes());
+
+            // Convertir el array de bytes a una cadena hexadecimal
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                // Convertir cada byte a su valor hexadecimal
+                String hex = Integer.toHexString(0xff & b);
+                // Asegurar que el valor hexadecimal sea de 2 dígitos
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+
+            // Retornar el hash en formato hexadecimal
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al encriptar la contraseña", e);
+        }
+    }
     /**
      * @param args the command line arguments
      */

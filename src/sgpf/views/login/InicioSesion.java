@@ -1,5 +1,7 @@
 package sgpf.views.login;
 
+import static sgpf.views.login.Registrar.encriptarConSHA256;
+
 public class InicioSesion extends javax.swing.JFrame {
 
     public InicioSesion() {
@@ -150,8 +152,10 @@ public class InicioSesion extends javax.swing.JFrame {
         // Crear una instancia de UsuarioDao
         sgpf.daos.UsuarioDao usuarioDao = new sgpf.daos.UsuarioDao();
 
+        String contrasenaEncriptada = encriptarConSHA256(contrasena);
+        
         // Llamar al método IniciarSesion
-        boolean inicioExitoso = usuarioDao.IniciarSesion(correo, contrasena);
+        boolean inicioExitoso = usuarioDao.IniciarSesion(correo, contrasenaEncriptada);
 
         if (inicioExitoso) {
             // Mensaje de bienvenida
