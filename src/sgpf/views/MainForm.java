@@ -5,6 +5,7 @@
 package sgpf.views;
 
 import sgpf.views.login.InicioSesion;
+import sgpf.views.lote.ConsultarLote;
 import sgpf.views.lote.CrearLote;
 
 /**
@@ -69,7 +70,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/Lote.png"))); // NOI18N
-        jButton3.setText("Lote");
+        jButton3.setText("Crear Lote");
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,6 +109,11 @@ public class MainForm extends javax.swing.JFrame {
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/icons8-magnifying-glass-64.png"))); // NOI18N
         jButton8.setText("Consultar Lote");
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton10.setBackground(new java.awt.Color(135, 206, 235));
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -245,6 +251,12 @@ public class MainForm extends javax.swing.JFrame {
             this.dispose(); 
         }
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        ConsultarLote consultarLote = new ConsultarLote();
+        consultarLote.setVisible(true); 
+        this.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments

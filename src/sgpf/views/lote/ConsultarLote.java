@@ -1,5 +1,9 @@
 package sgpf.views.lote;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import sgpf.daos.LoteDao;
+import sgpf.models.Lote;
 import sgpf.views.MainForm;
 
 /**
@@ -13,6 +17,7 @@ public class ConsultarLote extends javax.swing.JFrame {
      */
     public ConsultarLote() {
         initComponents();
+        cargarLotesEnTabla();
     }
 
     /**
@@ -25,13 +30,13 @@ public class ConsultarLote extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableLotes = new javax.swing.JTable();
         jButton10 = new javax.swing.JButton();
         BotonInforme = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableLotes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -50,7 +55,7 @@ public class ConsultarLote extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableLotes);
 
         jButton10.setBackground(new java.awt.Color(135, 206, 235));
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -111,6 +116,32 @@ public class ConsultarLote extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void cargarLotesEnTabla() {
+        // Obtener todos los lotes desde la base de datos
+        LoteDao loteDao = new LoteDao();
+        List<Lote> lotes = loteDao.obtenerTodos();
+
+        // Limpiar la tabla antes de agregar nuevos datos
+        DefaultTableModel modelo = (DefaultTableModel) tableLotes.getModel();
+        modelo.setRowCount(0); // Esto limpia las filas existentes en la tabla
+
+        // Agregar los lotes a la tabla
+        for (Lote lote : lotes) {
+            // Crear un array de objetos con los datos del lote
+            Object[] fila = new Object[6];
+            fila[0] = lote.getIdLote();
+            fila[1] = lote.getNombreLote();
+            fila[2] = lote.getIdMedicamento(); // Si necesitas el nombre del medicamento, puedes modificar la lógica aquí
+            fila[3] = lote.getCantidad();
+            fila[4] = lote.getFechaVencimiento();
+            fila[5] = lote.getCreatedAt(); // Asegúrate de tener este dato en la clase Lote
+
+            // Agregar la fila al modelo de la tabla
+            modelo.addRow(fila);
+        }
+    }
+
+    
     /**
      * @param args the command line arguments
      */
@@ -150,6 +181,6 @@ public class ConsultarLote extends javax.swing.JFrame {
     public javax.swing.JButton BotonInforme;
     private javax.swing.JButton jButton10;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableLotes;
     // End of variables declaration//GEN-END:variables
 }

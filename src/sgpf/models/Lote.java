@@ -13,14 +13,13 @@ public class Lote {
     public Lote() {}
 
     // Constructor completo
-    public Lote(int idLote, String nombreLote, int idMedicamento, int cantidad, String fechaVencimiento, String createdAt, String updatedAt) {
+    public Lote(int idLote, String nombreLote, int idMedicamento, int cantidad, String fechaVencimiento, String createdAt) {
         this.idLote = idLote;
         this.nombreLote = nombreLote;
         this.idMedicamento = idMedicamento;
         this.cantidad = cantidad;
         this.fechaVencimiento = fechaVencimiento;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     // Getters y Setters
