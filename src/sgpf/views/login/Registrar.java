@@ -221,6 +221,21 @@ public class Registrar extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if (!nombres.matches("[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Los nombres solo pueden contener letras y espacios.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!apellidos.matches("[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+")) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Los apellidos solo pueden contener letras y espacios.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (!identificacion.matches("\\d+")) {  // \\d+ asegura que solo haya números
+            javax.swing.JOptionPane.showMessageDialog(this, "La identificación solo puede contener números.", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Validar formato del correo con una expresión regular
         if (!correo.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
@@ -234,13 +249,7 @@ public class Registrar extends javax.swing.JFrame {
         
         String contrasenaEncriptada = encriptarConSHA256(contraseña);
 
-        // Simular el registro del usuario (puedes conectarlo a una base de datos más adelante)
-        javax.swing.JOptionPane.showMessageDialog(this, "Usuario registrado con éxito:\n" +
-                "Nombres: " + nombres + "\n" +
-                "Apellidos: " + apellidos + "\n" +
-                "Identificación: " + identificacion + "\n" +
-                "Correo: " + correo, "Registro Exitoso", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
+        
         // Limpia los campos después del registro
         UsuarioIngresado.setText("");
         Apellidos.setText("");

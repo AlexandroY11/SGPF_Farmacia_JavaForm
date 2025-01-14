@@ -97,7 +97,7 @@ public class CrearLote extends javax.swing.JFrame {
 
         BotonCrearLote.setBackground(new java.awt.Color(0, 191, 255));
         BotonCrearLote.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonCrearLote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/farmaco.png"))); // NOI18N
+        BotonCrearLote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/farmaco.png"))); // NOI18N
         BotonCrearLote.setText("Crear");
         BotonCrearLote.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         BotonCrearLote.addActionListener(new java.awt.event.ActionListener() {
@@ -108,7 +108,7 @@ public class CrearLote extends javax.swing.JFrame {
 
         BotonActualizarLote.setBackground(new java.awt.Color(0, 191, 255));
         BotonActualizarLote.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonActualizarLote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/actualizar.png"))); // NOI18N
+        BotonActualizarLote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/actualizar.png"))); // NOI18N
         BotonActualizarLote.setText("Actualizar");
         BotonActualizarLote.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         BotonActualizarLote.addActionListener(new java.awt.event.ActionListener() {
@@ -119,7 +119,7 @@ public class CrearLote extends javax.swing.JFrame {
 
         BotonInforme.setBackground(new java.awt.Color(0, 191, 255));
         BotonInforme.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/informe-medico.png"))); // NOI18N
+        BotonInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/informe-medico.png"))); // NOI18N
         BotonInforme.setText("Informe");
         BotonInforme.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         BotonInforme.addActionListener(new java.awt.event.ActionListener() {
@@ -201,11 +201,11 @@ public class CrearLote extends javax.swing.JFrame {
         Titulo_InicioSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Titulo_InicioSesion.setText("<html>\n<div style=\"text-align: center;\">\nCreacion de Lotes\n</div>\n</html>");
 
-        Icono_InicioSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Creacion de lotes.png"))); // NOI18N
+        Icono_InicioSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/Creacion de lotes.png"))); // NOI18N
 
         BotonSalirLotes.setBackground(new java.awt.Color(0, 191, 255));
         BotonSalirLotes.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonSalirLotes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/cerrar-sesion.png"))); // NOI18N
+        BotonSalirLotes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/cerrar-sesion.png"))); // NOI18N
         BotonSalirLotes.setText("Salir");
         BotonSalirLotes.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         BotonSalirLotes.addActionListener(new java.awt.event.ActionListener() {
