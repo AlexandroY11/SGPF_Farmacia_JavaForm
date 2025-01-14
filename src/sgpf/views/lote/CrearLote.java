@@ -4,6 +4,15 @@
  */
 package sgpf.views.lote;
 
+import java.text.SimpleDateFormat;
+import sgpf.models.Medicamento;
+import sgpf.views.MainForm;
+import java.util.List;
+import javax.swing.JOptionPane;
+import sgpf.daos.LoteDao;
+import sgpf.daos.MedicamentoDao;
+import sgpf.views.login.InicioSesion;
+
 /**
  *
  * @author Brayan Hurtado
@@ -11,11 +20,15 @@ package sgpf.views.lote;
 
 public class CrearLote extends javax.swing.JFrame {
 
+    private MedicamentoDao medicamentoDao;
+
     /**
      * Creates new form eliminar
      */
     public CrearLote() {
         initComponents();
+        medicamentoDao = new MedicamentoDao();
+        llenarComboBoxMedicamentos();
     }
 
     /**
@@ -30,16 +43,11 @@ public class CrearLote extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TablaLotes = new javax.swing.JTable();
         LNombre = new javax.swing.JTextField();
-        LID = new javax.swing.JTextField();
         LNumCantidad = new javax.swing.JSpinner();
-        LEstado = new javax.swing.JTextField();
-        LPrecio = new javax.swing.JTextField();
         BotonCrearLote = new javax.swing.JButton();
-        BotonActualizarLote = new javax.swing.JButton();
-        BotonInforme = new javax.swing.JButton();
+        jComboBoxMedicamentos = new javax.swing.JComboBox<>();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         Titulo_InicioSesion = new javax.swing.JLabel();
         Icono_InicioSesion = new javax.swing.JLabel();
         BotonSalirLotes = new javax.swing.JButton();
@@ -51,20 +59,6 @@ public class CrearLote extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 255));
 
-        TablaLotes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Nombre del lote", "Cod.Identificacion", "Cantidad", "Fecha de vigencia", "Estado"
-            }
-        ));
-        TablaLotes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(TablaLotes);
-
         LNombre.setBorder(javax.swing.BorderFactory.createTitledBorder("Nombre"));
         LNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,28 +66,7 @@ public class CrearLote extends javax.swing.JFrame {
             }
         });
 
-        LID.setBorder(javax.swing.BorderFactory.createTitledBorder("ID"));
-        LID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LIDActionPerformed(evt);
-            }
-        });
-
         LNumCantidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad"));
-
-        LEstado.setBorder(javax.swing.BorderFactory.createTitledBorder("Estado"));
-        LEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LEstadoActionPerformed(evt);
-            }
-        });
-
-        LPrecio.setBorder(javax.swing.BorderFactory.createTitledBorder("Precio"));
-        LPrecio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LPrecioActionPerformed(evt);
-            }
-        });
 
         BotonCrearLote.setBackground(new java.awt.Color(0, 191, 255));
         BotonCrearLote.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -106,77 +79,46 @@ public class CrearLote extends javax.swing.JFrame {
             }
         });
 
-        BotonActualizarLote.setBackground(new java.awt.Color(0, 191, 255));
-        BotonActualizarLote.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonActualizarLote.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/actualizar.png"))); // NOI18N
-        BotonActualizarLote.setText("Actualizar");
-        BotonActualizarLote.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        BotonActualizarLote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonActualizarLoteActionPerformed(evt);
-            }
-        });
+        jComboBoxMedicamentos.setBorder(javax.swing.BorderFactory.createTitledBorder("Medicamento"));
 
-        BotonInforme.setBackground(new java.awt.Color(0, 191, 255));
-        BotonInforme.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        BotonInforme.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/informe-medico.png"))); // NOI18N
-        BotonInforme.setText("Informe");
-        BotonInforme.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        BotonInforme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonInformeActionPerformed(evt);
-            }
-        });
+        jDateChooser1.setBorder(javax.swing.BorderFactory.createTitledBorder("Fecha de Vencimiento"));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(BotonCrearLote, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addComponent(BotonActualizarLote)
-                        .addGap(32, 32, 32))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(LID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                            .addComponent(LNombre, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LPrecio, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LEstado, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LNumCantidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 297, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                .addGap(2, 2, 2)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jComboBoxMedicamentos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(LNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(BotonInforme)))
-                .addGap(19, 19, 19))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LNumCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonCrearLote, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(312, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(LNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LID, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(LNumCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(LEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(LPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE))
+                .addComponent(LNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonCrearLote)
-                    .addComponent(BotonActualizarLote)
-                    .addComponent(BotonInforme))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jComboBoxMedicamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LNumCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(BotonCrearLote)
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -234,7 +176,7 @@ public class CrearLote extends javax.swing.JFrame {
                                 .addComponent(Icono_InicioSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)))))
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,34 +213,98 @@ public class CrearLote extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_LNombreActionPerformed
 
-    private void LIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LIDActionPerformed
-
-    private void LEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LEstadoActionPerformed
-
-    private void LPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LPrecioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LPrecioActionPerformed
-
     private void BotonCrearLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCrearLoteActionPerformed
-        // TODO add your handling code here:
+        String nombre = LNombre.getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El campo 'Nombre' no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que la cantidad sea mayor a 0
+        int cantidad = (Integer) LNumCantidad.getValue();
+        if (cantidad <= 0) {
+            JOptionPane.showMessageDialog(this, "La cantidad debe ser mayor a 0.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que se haya seleccionado una fecha y que sea válida
+        java.util.Date fechaVencimiento = jDateChooser1.getDate();
+        if (fechaVencimiento == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fecha de vencimiento.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        java.util.Date fechaActual = new java.util.Date();
+        if (fechaVencimiento.before(fechaActual)) {
+            JOptionPane.showMessageDialog(this, "La fecha de vencimiento debe ser posterior a la fecha actual.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que se haya seleccionado un medicamento
+        if (jComboBoxMedicamentos.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un medicamento.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Si todas las validaciones pasan, mostrar un mensaje de éxito (o proceder con la lógica)
+        String medicamento = jComboBoxMedicamentos.getSelectedItem().toString();
+        JOptionPane.showMessageDialog(this, "Lote creado exitosamente:\n" +
+                "Nombre: " + nombre + "\n" +
+                "Cantidad: " + cantidad + "\n" +
+                "Medicamento: " + medicamento + "\n" +
+                "Fecha de vencimiento: " + fechaVencimiento, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        Medicamento medicamentoSeleccionado = (Medicamento) jComboBoxMedicamentos.getSelectedItem();
+        int medicamentoId = medicamentoSeleccionado.getIdMedicamento(); // Asegúrate de que el objeto Medicamento tenga un método getId()
+
+        // Convertir la fecha de vencimiento a String en el formato adecuado
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaVencimientoStr = sdf.format(fechaVencimiento);
+
+        // Si todas las validaciones pasan, mostrar un mensaje de éxito (o proceder con la lógica)
+        JOptionPane.showMessageDialog(this, "Lote creado exitosamente:\n" +
+                "Nombre: " + nombre + "\n" +
+                "Cantidad: " + cantidad + "\n" +
+                "Medicamento: " + medicamentoSeleccionado.getNombre() + "\n" +
+                "Fecha de vencimiento: " + fechaVencimientoStr, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        LoteDao loteDAO = new LoteDao();
+        boolean exito = loteDAO.crearLote(nombre, cantidad, medicamentoId, fechaVencimientoStr);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Lote registrado con éxito en la base de datos.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            MainForm mainForm = new MainForm();
+            mainForm.setVisible(true); 
+            this.dispose(); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al registrar el lote en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_BotonCrearLoteActionPerformed
-
-    private void BotonActualizarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonActualizarLoteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonActualizarLoteActionPerformed
-
-    private void BotonInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInformeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotonInformeActionPerformed
-
+  
     private void BotonSalirLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonSalirLotesActionPerformed
-        // TODO add your handling code here:
+       MainForm mainForm = new MainForm();
+       mainForm.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_BotonSalirLotesActionPerformed
 
+    private void llenarComboBoxMedicamentos() {
+        try {
+            // Obtener todos los medicamentos
+            List<Medicamento> medicamentos = medicamentoDao.obtenerTodos();
+
+            // Vaciar el JComboBox para evitar datos duplicados
+            jComboBoxMedicamentos.removeAllItems();
+
+            // Llenar el JComboBox con los objetos Medicamento
+            for (Medicamento medicamento : medicamentos) {
+                jComboBoxMedicamentos.addItem(medicamento);  // Agregar el objeto Medicamento completo
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar medicamentos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    
     /**
      * @param args the command line arguments
      */
@@ -342,21 +348,16 @@ public class CrearLote extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton BotonActualizarLote;
     public javax.swing.JButton BotonCrearLote;
-    public javax.swing.JButton BotonInforme;
     public javax.swing.JButton BotonSalirLotes;
     public javax.swing.JLabel Icono_InicioSesion;
-    private javax.swing.JTextField LEstado;
-    private javax.swing.JTextField LID;
     public javax.swing.JTextField LNombre;
     public javax.swing.JSpinner LNumCantidad;
-    private javax.swing.JTextField LPrecio;
-    private javax.swing.JTable TablaLotes;
     public javax.swing.JLabel Titulo_InicioSesion;
+    private javax.swing.JComboBox<Medicamento> jComboBoxMedicamentos;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
