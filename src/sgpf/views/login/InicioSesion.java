@@ -1,5 +1,6 @@
 package sgpf.views.login;
 
+import sgpf.views.MainForm;
 import static sgpf.views.login.Registrar.encriptarConSHA256;
 
 public class InicioSesion extends javax.swing.JFrame {
@@ -164,11 +165,9 @@ public class InicioSesion extends javax.swing.JFrame {
                 "Éxito", 
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
-            // Aquí puedes redirigir a la siguiente ventana
-            // Ejemplo:
-            // MenuPrincipal menu = new MenuPrincipal();
-            // menu.setVisible(true);
-            // this.dispose();
+            MainForm menu = new MainForm();
+            menu.setVisible(true);
+            this.dispose();
 
         } else {
             // Mostrar mensaje de error si las credenciales son incorrectas
