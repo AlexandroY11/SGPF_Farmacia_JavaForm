@@ -13,7 +13,6 @@ private int idMedicamento;
     private String nombre;
     private String codigoBarras;
     private String foto;
-    private int stockMinimo;
     private String createdAt;
     private String updatedAt;
 
@@ -22,12 +21,11 @@ private int idMedicamento;
     }
 
     // Constructor con parámetros
-    public Medicamento(int idMedicamento, String nombre, String codigoBarras, String foto, int stockMinimo, String createdAt, String updatedAt) {
+    public Medicamento(int idMedicamento, String nombre, String codigoBarras, String foto, String createdAt, String updatedAt) {
         this.idMedicamento = idMedicamento;
         this.nombre = nombre;
         this.codigoBarras = codigoBarras;
         this.foto = foto;
-        this.stockMinimo = stockMinimo;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -63,14 +61,6 @@ private int idMedicamento;
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public int getStockMinimo() {
-        return stockMinimo;
-    }
-
-    public void setStockMinimo(int stockMinimo) {
-        this.stockMinimo = stockMinimo;
     }
 
     public String getCreatedAt() {

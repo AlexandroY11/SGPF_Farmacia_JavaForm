@@ -1,7 +1,7 @@
 package sgpf.models;
 
 public class Usuario {
-     private int id;
+    private int id;
     private String nombre;
     private String correo;
     private String contraseña;

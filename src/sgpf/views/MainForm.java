@@ -7,6 +7,7 @@ package sgpf.views;
 import sgpf.views.login.InicioSesion;
 import sgpf.views.lote.ConsultarLote;
 import sgpf.views.lote.CrearLote;
+import sgpf.views.medicamento.CrearMedicamento;
 
 /**
  *
@@ -80,8 +81,13 @@ public class MainForm extends javax.swing.JFrame {
 
         jButton4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/icons8-medications-64.png"))); // NOI18N
-        jButton4.setText("Medicamentos");
+        jButton4.setText("Crear Medicamentos");
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sgpf/resources/icons/icons8-búsqueda-64.png"))); // NOI18N
@@ -136,7 +142,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
@@ -239,7 +245,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-                int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, 
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, 
             "¿Estás seguro de que deseas salir?", 
             "Confirmar salida", 
             javax.swing.JOptionPane.YES_NO_OPTION, 
@@ -257,6 +263,12 @@ public class MainForm extends javax.swing.JFrame {
         consultarLote.setVisible(true); 
         this.dispose();
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        CrearMedicamento crearMedicamento = new CrearMedicamento();
+        crearMedicamento.setVisible(true); 
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
